@@ -492,7 +492,7 @@ Tinebase_Core::getLogger()->alert(__METHOD__ . '#####::#####' . __LINE__ . ' Fol
     public function create(Tinebase_Record_Interface $_record)
     {
         $folder = $_record->toArray();
-        $return = $this->get($this->encodeFolderUid($folder['globalname'], $folder['account_id']));
+        $return = $this->get($this->encodeFolderUid(Felamimail_Model_Folder::encodeFolderName($folder['globalname']), $folder['account_id']));
         Return $return;
     }
     
