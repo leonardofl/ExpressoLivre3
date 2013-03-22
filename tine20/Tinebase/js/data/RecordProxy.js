@@ -30,7 +30,17 @@ Tine.Tinebase.data.RecordProxy = function(c) {
     this.appName    = this.appName    ? this.appName    : c.recordClass.getMeta('appName');
     this.modelName  = this.modelName  ? this.modelName  : c.recordClass.getMeta('modelName');
     this.idProperty = this.idProperty ? this.idProperty : c.recordClass.getMeta('idProperty');
-    
+    this.requestsStore = new  Ext.data.ArrayStore({
+        // store configs
+        autoDestroy: true,
+        storeId: 'requestsStore',
+        // reader configs
+        idIndex: 0,  
+        fields: [
+            {name: 'id', type: 'number'},
+            {name: 'params', type: 'string'},
+        ]
+    });
     /* NOTE: in ExtJS records always are part of a store. The store is
              the only instance which triggers read/write actions.
              
@@ -79,6 +89,8 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
      * @property transId
      */
     transId: null,
+    
+    requestsStore: null,
     
     /**
      * Aborts any outstanding request.
@@ -373,6 +385,9 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
             params: options.params,
             callback: options.callback,
             success: function(response) {
+                
+                this.removeRequest(response.tId);
+                
                 if (typeof options.success == 'function') {
                     var args = [];
                     if (typeof options.beforeSuccess == 'function') {
@@ -389,6 +404,8 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
                     
                 exception.request = jsonrpcoptions.jsonData;
                 exception.response = response.responseText;
+                
+                this.removeRequest(response.tId);
                 
                 if (typeof options.failure == 'function') {
                     var args = [];
@@ -409,9 +426,31 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
             requestOptions.timeout = options.timeout;
         }
         
-        this.transId = Ext.Ajax.request(requestOptions);
+        var jsonParams = Ext.util.JSON.encode(options.params).replace(/"id":"[a-zA-Z0-9\-"]*/g,'"id":""');
+        if (this.requestsStore.findExact('params', jsonParams) == -1)
+        {
+            this.transId = Ext.Ajax.request(requestOptions);
+
+            Tine.log.debug('Inserting: ' + this.transId.tId);
+            this.requestsStore.add(new Ext.data.Record({
+                tId: this.transId.tId,
+                params: jsonParams
+            }));
+            
+        }
+        else
+            {
+                Tine.log.debug('Request not made: ' + jsonParams);
+            }
         
         return this.transId;
+    },
+    
+    removeRequest: function(tId)
+    {
+        Tine.log.debug('Removing: ' + tId);
+        var position = this.requestsStore.findExact(tId);
+        this.requestsStore.removeAt(position);
     },
     
     /**

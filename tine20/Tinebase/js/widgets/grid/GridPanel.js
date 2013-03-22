@@ -730,10 +730,11 @@ Ext.extend(Tine.widgets.grid.GridPanel, Ext.Panel, {
      */
     onStoreBeforeLoadRecords: function(o, options, success, store) {
 
-        if (this.lastStoreTransactionId && options.transactionId && this.lastStoreTransactionId !== options.transactionId) {
-            Tine.log.debug('cancelling old transaction request.');
-            return false;
-        }
+        // RecordProxy is dealing with repeated requests.
+//        if (this.lastStoreTransactionId && options.transactionId && this.lastStoreTransactionId !== options.transactionId) {
+//            Tine.log.debug('cancelling old transaction request.');
+//            return false;
+//        }
 
         // save selection -> will be applied onLoad
         if (options.preserveSelection) {
