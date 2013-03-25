@@ -800,7 +800,8 @@ abstract class Felamimail_Controller_Message_Abstract extends Tinebase_Controlle
                     }
                 }
                 $src = "index.php?method=Felamimail.downloadAttachment&amp;messageId=".$_messageId."&amp;partId=".$pid;
-                $_content = preg_replace("/cid:$match[1]/",$src,$_content);
+                //$_content = preg_replace("/cid:$match[1]/",$src,$_content);
+                $_content = str_replace('cid:'.$match[1], $src, $_content);
             }
         }
 
