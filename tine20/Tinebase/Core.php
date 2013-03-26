@@ -301,10 +301,7 @@ class Tinebase_Core
         // Server Timezone must be setup before logger, as logger has timehandling!
         Tinebase_Core::setupServerTimezone();
         
-        Tinebase_Core::setupLogger();
-        
-        // Database Connection must be setup before cache because setupCache uses constant "SQL_TABLE_PREFIX" 
-        Tinebase_Core::setupDatabaseConnection();
+        Tinebase_Core::setupLogger();        
         
         Tinebase_Core::setupTempDir();
         
@@ -1205,6 +1202,12 @@ class Tinebase_Core
      */
     public static function getDb()
     {
+    	$db = self::get(self::DB);
+    	if (empty($db))
+    	{
+	    	// Database Connection must be setup before cache because setupCache uses constant "SQL_TABLE_PREFIX"
+    		Tinebase_Core::setupDatabaseConnection();
+    	}
         return self::get(self::DB);
     }
 
