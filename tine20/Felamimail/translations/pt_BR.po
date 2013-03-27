@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tine 2.0 - Felamimail\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-03-22 11:32-0300\n"
+"PO-Revision-Date: 2013-03-27 14:39-0300\n"
 "Last-Translator: Cassiano Dal Pizzol <cassiano@dalpizzol@serpro.gov.br>\n"
 "Language-Team: Tine 2.0 Translators <rommel.cysne@serpro.gov.br>\n"
 "MIME-Version: 1.0\n"
@@ -1273,3 +1273,4 @@ msgstr "Não aceitar futuras mensagens deste remetente?"
 
 msgid "Block Sender"
 msgstr "Bloquear remetente"
+
