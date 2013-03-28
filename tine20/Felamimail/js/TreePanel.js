@@ -176,7 +176,7 @@ Ext.extend(Tine.Felamimail.TreePanel, Ext.tree.TreePanel, {
         
         // init selection model (multiselect)
         this.selModel = new Ext.tree.MultiSelectionModel({});
-        
+            
         // init context menu TODO use Ext.apply
         var initCtxMenu = Tine.Felamimail.setTreeContextMenus.createDelegate(this);
         initCtxMenu();
@@ -256,19 +256,19 @@ Ext.extend(Tine.Felamimail.TreePanel, Ext.tree.TreePanel, {
             }
             
             // remove path filter
+            var filter = this.getFilterPlugin().getFilter();
+            var test = filter.value.length == 1 && filter.value[0].match(/^\/[A-z0-9]*$/);
             ftb.supressEvents = true;
             ftb.filterStore.each(function(filter) {
                 var field = filter.get('field');
-                if (field === 'path') {
+                if (field === 'path' && !test) {
                     ftb.deleteFilter(filter);
                 }
             }, this);
             ftb.supressEvents = false;
             
             // set ftb filters according to tree selection
-            var filter = this.getFilterPlugin().getFilter();
-            
-            if (filter.field == 'path' && Ext.isEmpty(filter.value))
+            if (filter.field == 'path' && (Ext.isEmpty(filter.value) || test))
             {
                 return;
             }
