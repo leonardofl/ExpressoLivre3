@@ -168,8 +168,14 @@ Tine.Calendar.Model.Event.getDefaultData = function() {
         mainPanel = app.getMainScreen().getCenterPanel(),
         period = mainPanel.getCalendarPanel(mainPanel.activeView).getView().getPeriod(),
         container = app.getMainScreen().getWestPanel().getContainerTreePanel().getDefaultContainer(),
-        attender = Tine.Tinebase.registry.get('currentAccount');
+        attender = Tine.Tinebase.registry.get('currentAccount'),
         
+        //owner of selected calendar
+        containerOwner = container.owner,
+
+        //defines default attender according to selected calendar
+        defaultAttender = containerOwner ? ( (attender.accountId !== containerOwner.accountId) ? containerOwner : attender ) : attender;
+    
     if (period.from.getTime() > dtstart.getTime() || period.until.getTime() < dtstart.getTime()) {
         dtstart = period.from.clearTime(true).add(Date.HOUR, 9);
     }
@@ -185,7 +191,7 @@ Tine.Calendar.Model.Event.getDefaultData = function() {
         attendee: [
             Ext.apply(Tine.Calendar.Model.Attender.getDefaultData(), {
                 user_type: 'user',
-                user_id: attender,
+                user_id: defaultAttender,
                 status: 'ACCEPTED'
             })
         ]

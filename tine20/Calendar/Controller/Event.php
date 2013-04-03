@@ -1502,8 +1502,8 @@ class Calendar_Controller_Event extends Tinebase_Controller_Record_Abstract impl
         
         $userAccountId = $_attender->getUserAccountId();
         
-        // reset status if not a contact or my account
-        if ($_attender->user_type != Calendar_Model_Attender::USERTYPE_USER || ($userAccountId && $userAccountId != Tinebase_Core::getUser()->getId())) { 
+        // reset status if not a contact or my account or creating event on other user's calendar
+        if ($_attender->user_type != Calendar_Model_Attender::USERTYPE_USER || ($userAccountId && $userAccountId != Tinebase_Core::getUser()->getId() && $userAccountId !== $_calendar->owner_id)) { 
             $_attender->status = Calendar_Model_Attender::STATUS_NEEDSACTION;
         }
         

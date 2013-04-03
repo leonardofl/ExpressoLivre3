@@ -276,6 +276,7 @@ Ext.extend(Tine.widgets.container.TreePanel, Ext.tree.TreePanel, {
             if (node && Tine.Tinebase.container.pathIsContainer(node.attributes.container.path)) {
                 if (! requiredGrant || this.hasGrant(node, requiredGrant)) {
                     result = node.attributes.container;
+                    result.owner = node.attributes.owner;
                     // take the first one
                     return false;
                 }

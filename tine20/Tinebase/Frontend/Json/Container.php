@@ -55,6 +55,14 @@ class Tinebase_Frontend_Json_Container
             if ($container instanceof Tinebase_Model_Container) {
                 $containerArray['account_grants'] = Tinebase_Container::getInstance()->getGrantsOfAccount(Tinebase_Core::getUser(), $container->getId())->toArray();
                 $containerArray['path'] = $container->getPath();
+                
+                //add the owner of selected container
+                if($owner && $owner !== '0')
+                {
+                    $containerArray['owner'] = Tinebase_User::getInstance()->
+                                            getFullUserById($owner)->toArray();
+                }
+                
             } else {
                 $containerArray['path'] = "personal/{$container->getId()}";
             }
