@@ -26,13 +26,7 @@ class ActiveSync_NoSync
 		$_user = $_REQUEST['User'];
 		$_device = $_REQUEST['DeviceId'];
 		$_body = fopen('php://input', 'r');
-		
-		if (isset(Tinebase_Core::getConfig()->nosyncinterval)) {
-			$_nosyncinterval = Tinebase_Core::getConfig()->nosyncinterval;
-		} else {
-			$_nosyncinterval = self::NO_SYNC_INTERVAL;
-		}
-		
+
 		if ($_SERVER['CONTENT_TYPE'] == 'application/vnd.ms-sync.wbxml') {
 			// decode wbxml request
 			try {
@@ -97,6 +91,12 @@ class ActiveSync_NoSync
 			$accountsController = Tinebase_User::getInstance();
 			$device = $_deviceBackend->getUserDevice($accountsController->getFullUserByLoginName($_user)->accountId , $_device);
 		
+			if (isset(Tinebase_Core::getConfig()->nosyncinterval)) {
+				$_nosyncinterval = Tinebase_Core::getConfig()->nosyncinterval;
+			} else {
+				$_nosyncinterval = self::NO_SYNC_INTERVAL;
+			}
+			
 			$now = new DateTime('now', new DateTimeZone('utc'));
 			$force_full_sync = false;
 		
@@ -114,7 +114,7 @@ class ActiveSync_NoSync
 					break;						
 				}
 						
-				if ($syncState->counter < 5) {
+				if ($syncState->counter < 3) {
 					$force_full_sync = true;
 					break;
 				}

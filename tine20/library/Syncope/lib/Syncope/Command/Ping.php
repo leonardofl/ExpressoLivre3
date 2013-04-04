@@ -117,13 +117,15 @@ class Syncope_Command_Ping extends Syncope_Command_Wbxml
             $folderWithChanges = array();
             
             do {
+//            	Tinebase_Core::getDb()->closeConnection();
+             	
             	sleep($_pingtimeout);
-            	
+            	            	
             	$device = $this->_deviceBackend->get($this->_device->id);
             	if (isset($device->lastping) && ($device->lastping->getTimestamp() > $pingDateTime->getTimestamp())){
             		break;
             	}
-            	
+
             	$now = new DateTime('now', new DateTimeZone('utc'));
             	
                 foreach((array) $folders as $folder) {
@@ -133,7 +135,7 @@ class Syncope_Command_Ping extends Syncope_Command_Wbxml
                         $syncState = $this->_syncStateBackend->getSyncState($this->_device, $folder);
                         
                         // Workarround to avoid IMAP and Database overload. Only look for folder changes after a interval
-                        if (($now->getTimestamp() - $lastPingFetch[$folder->id]) > $_pingquietinterval) {
+                        if (!isset($lastPingFetch[$folder->id]) || (($now->getTimestamp() - $lastPingFetch[$folder->id]) > $_pingquietinterval)) {
                            $foundChanges = !!$dataController->getCountOfChanges($this->_contentStateBackend, $folder, $syncState);
                            $lastPingTmp = new DateTime('now', new DateTimeZone('utc'));
                            $lastPingFetch[$folder->id] = $lastPingTmp->getTimestamp();

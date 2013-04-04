@@ -494,7 +494,7 @@ abstract class ActiveSync_Controller_Abstract implements Syncope_Data_IData
     
     public function getCountOfChanges(Syncope_Backend_IContent $contentBackend, Syncope_Model_IFolder $folder, Syncope_Model_ISyncState $syncState)
     {
-        $this->updateCache($folder->folderid);
+        //$this->updateCache($folder->folderid);
         
         $allClientEntries = $contentBackend->getFolderState($this->_device, $folder);
        	$allServerEntries = $this->getServerEntries($folder->folderid, $folder->lastfiltertype);

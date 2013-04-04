@@ -54,10 +54,15 @@ $autoloader = Zend_Loader_Autoloader::getInstance();
 $autoloader->setFallbackAutoloader(true);
 Tinebase_Autoloader::initialize($autoloader);
 
-if((isset($_SERVER['REDIRECT_ACTIVESYNC']) && $_SERVER['REDIRECT_ACTIVESYNC'] == 'true') ||
-		(isset($_GET['frontend']) && $_GET['frontend'] == 'activesync')){
-	if (isset($_REQUEST['Cmd']) && $_REQUEST['Cmd'] == 'Sync') {
+if (isset($_REQUEST['Cmd'])) {
+	if ($_REQUEST['Cmd'] == 'Sync') {
 		ActiveSync_NoSync::handle();
+	}
+	//if ($_REQUEST['Cmd'] == 'Ping') {
+	//	ActiveSync_NoPing::handle();
+	//}
+	if ($_REQUEST['Cmd'] == 'FolderSync') {
+		ActiveSync_NoFolderSync::handle();
 	}
 }
 
