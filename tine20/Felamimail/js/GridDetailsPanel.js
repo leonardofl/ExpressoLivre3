@@ -285,7 +285,15 @@ Ext.ns('Tine.Felamimail');
                 
                 id += Ext.util.Format.htmlEncode(':' + Ext.util.Format.trim(firstname) + ':' + Ext.util.Format.trim(lastname));
                 result += ' <span ext:qtip="' + qtip + '" id="' + id + '" class="tinebase-addtocontacts-link">[+]</span>';
-                result += ' <span ext:qtip="Bloquear remetente" id="' + id + '" class="tinebase-addsievefilter-link">[x]</span>';
+                
+                //if no sieve hostname is defined, block sender feature is not enabled
+                var account = this.app.getActiveAccount(),
+                    sieve_hostname = account.get('sieve_hostname');
+                if( sieve_hostname && (sieve_hostname !== null || sieve_hostname !== '') )
+                {
+                    result += ' <span ext:qtip="Bloquear remetente" id="' + id + '" class="tinebase-addsievefilter-link">[x]</span>';
+                }
+                
                 return result;
             },
             

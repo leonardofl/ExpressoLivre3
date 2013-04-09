@@ -902,7 +902,7 @@ class Felamimail_Controller_Account extends Tinebase_Controller_Record_Abstract
             ),
             Tinebase_Config::SIEVE    => array(
                 'keys'      => array('hostname', 'port', 'ssl'),
-                'defaults'  => array('port' => 2000, 'ssl' => Felamimail_Model_Account::SECURE_NONE),
+                'defaults'  => array('hostname' => '', 'port' => 2000, 'ssl' => Felamimail_Model_Account::SECURE_NONE),
             ),
         );
         
@@ -938,7 +938,7 @@ class Felamimail_Controller_Account extends Tinebase_Controller_Record_Abstract
         }
         
         foreach ($config as $key => $value) {
-            if (in_array($key, $_keysOverwrite) && ! empty($value)) {
+            if (in_array($key, $_keysOverwrite)) {
                 $_account->{$prefix . $key} = $value;
             }
         }
