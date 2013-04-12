@@ -97,6 +97,7 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
      * @param {Number} transactionId (Optional) defaults to the last transaction
      */
     abort : function(transactionId) {
+        this.removeRequest(transactionId.tId);
         return Ext.Ajax.abort(transactionId);
     },
     
@@ -386,7 +387,9 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
             callback: options.callback,
             success: function(response) {
                 
-                this.removeRequest(response.tId);
+                if (options.nonblocking != true){
+                    this.removeRequest(response.tId);
+                }
                 
                 if (typeof options.success == 'function') {
                     var args = [];
@@ -405,7 +408,9 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
                 exception.request = jsonrpcoptions.jsonData;
                 exception.response = response.responseText;
                 
-                this.removeRequest(response.tId);
+                if (options.nonblocking != true){
+                    this.removeRequest(response.tId);
+                }
                 
                 if (typeof options.failure == 'function') {
                     var args = [];
@@ -426,17 +431,17 @@ Ext.extend(Tine.Tinebase.data.RecordProxy, Ext.data.DataProxy, {
             requestOptions.timeout = options.timeout;
         }
         
-        var jsonParams = Ext.util.JSON.encode(options.params).replace(/"id":"[a-zA-Z0-9\-"]*/g,'"id":""');
+        var jsonParams = Ext.util.JSON.encode(options.params).replace(/"id":"(ext-comp-|ext-record-)[0-9]+"/g,'"id":""');
         if (this.requestsStore.findExact('params', jsonParams) == -1)
         {
             this.transId = Ext.Ajax.request(requestOptions);
-
-            Tine.log.debug('Inserting: ' + this.transId.tId);
-            this.requestsStore.add(new Ext.data.Record({
-                tId: this.transId.tId,
-                params: jsonParams
-            }));
-            
+            if (options.nonblocking != true){
+                Tine.log.debug('Inserting: ' + this.transId.tId);
+                this.requestsStore.add(new Ext.data.Record({
+                    tId: this.transId.tId,
+                    params: jsonParams
+                }));
+            }
         }
         else
             {

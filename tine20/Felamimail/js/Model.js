@@ -221,6 +221,7 @@ Tine.Felamimail.messageBackend = new Tine.Tinebase.data.RecordProxy({
     fetchBody: function(message, callback) {
         return this.loadRecord(message, {
             timeout: 240000, // 4 minutes
+            nonblocking: true,
             scope: this,
             callback: function(options, success, response) {
                 var msg = this.recordReader(response);
