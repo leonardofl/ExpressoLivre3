@@ -263,7 +263,7 @@ Ext.ns('Tine.Felamimail');
             },
             showDate: function(sent, messageData) {
                 var date = (sent) ? sent : messageData.received;
-                return Tine.Tinebase.common.dateTimeRenderer(date);
+                return Tine.Tinebase.common.dateTimeRenderer(new Date(date));
             },
             showFrom: function(email, name, addText, qtip) {
                 if (name === null) {

@@ -1099,7 +1099,7 @@ Tine.Felamimail.GridPanel = Ext.extend(Tine.widgets.grid.GridPanel, {
             });
         } else {
             win = Tine.Felamimail.MessageDisplayDialog.openWindow({
-                record: Ext.encode(record.data),
+                record: record,
                 listeners: {
                     scope: this,
                     'update': this.onAfterCompose.createDelegate(this, ['compose', []], 1),

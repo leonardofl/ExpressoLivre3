@@ -18,9 +18,6 @@ Tine.Felamimail.MessageDisplayDialog = Ext.extend(Tine.Felamimail.GridDetailsPan
     autoScroll: false,
     
     initComponent: function() {
-        if (Ext.isString(this.record)) {
-            this.record = Tine.Felamimail.messageBackend.recordReader({responseText: this.record});
-        }
 
         this.addEvents('remove');
         
@@ -32,9 +29,6 @@ Tine.Felamimail.MessageDisplayDialog = Ext.extend(Tine.Felamimail.GridDetailsPan
         
         this.initActions();
         this.initToolbar();
-        
-        Tine.log.debug('Tine.Felamimail.MessageDisplayDialog::initComponent() -> message record:');
-        Tine.log.debug(this.record);
         
         this.supr().initComponent.apply(this, arguments);
     },
