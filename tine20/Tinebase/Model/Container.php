@@ -123,7 +123,7 @@ class Tinebase_Model_Container extends Tinebase_Record_Abstract
     protected static $_mapBackendOptions = array(
         'host'                      => array('ldapHost', null),
         'port'                      => array('ldapPort', null),
-        'useSsl'                    => array(null, null),
+        'useSsl'                    => array('ldapSSL', false),
         'username'                  => array('ldapAccount', null),
         'password'                  => array('ldapPassword', null),
         'bindRequiresDn'            => array(null, null),
@@ -136,7 +136,7 @@ class Tinebase_Model_Container extends Tinebase_Record_Abstract
         'useStartTls'               => array(null, null),
         'optReferrals'              => array(null, null),
         'tryUsernameSplit'          => array(null, null),
-        'ldapQuickSearch'           => array(null, false),
+        'ldapQuickSearch'           => array('ldapQuickSearch', false),
         'filter'                    => array('ldapObjectClass', null),
         'maxResults'                => array('ldapMaxResults', null),
         'scope'                     => array('ldapRecursive', false),

@@ -43,6 +43,7 @@ Tine.Admin.Model.Container = Tine.Tinebase.data.Record.create(Tine.Tinebase.Mode
     {name: 'backend'},
     {name: 'ldapHost'},
     {name: 'ldapPort'},
+    {name: 'ldapSSL', type: 'boolean'},
     {name: 'ldapDn'},
     {name: 'ldapAccount'},
     {name: 'ldapObjectClass'},

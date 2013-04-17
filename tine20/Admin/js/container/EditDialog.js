@@ -196,6 +196,7 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
                                     var Form = this.getForm();
                                     Form.findField('ldapHost').setDisabled(record.data.field1 === 'sql');
                                     Form.findField('ldapPort').setDisabled(record.data.field1 === 'sql');
+                                    Form.findField('ldapSSL').setDisabled(record.data.field1 === 'sql');
                                     Form.findField('ldapDn').setDisabled(record.data.field1 === 'sql');
                                     Form.findField('ldapAccount').setDisabled(record.data.field1 === 'sql');
                                     Form.findField('ldapObjectClass').setDisabled(record.data.field1 === 'sql');
@@ -221,8 +222,18 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
                             fieldLabel: this.app.i18n._('Port'),
                             disabled: this.record.get('backend') == 'sql',
                             maxLength: 5,
-                            columnWidth: 0.4
-                        },{
+                            columnWidth: 0.2
+                        }, {
+                            xtype: 'combo',
+                            name: 'ldapSSL',
+                            fieldLabel: this.app.i18n._('Use SSL'),
+                            disabled: this.record.get('backend') == 'sql',
+                            store: [[0, this.app.i18n._('false')], [1, this.app.i18n._('true')]],
+                            allowBlank: false,
+                            forceSelection: true,
+                            mode: 'local',
+                            columnWidth: 0.2
+                        }, {
                             xtype: 'textfield',
                             name: 'ldapDn',
                             fieldLabel: this.app.i18n._('Distinguished Name'),
